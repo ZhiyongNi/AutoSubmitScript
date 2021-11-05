@@ -28,26 +28,27 @@ class WebDriverContorl:
         UIDinput = self.driver.find_element(By.XPATH, "//input[@name='userId']")
         UIDinput.send_keys(User.UserName)
         UIDinput.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(2)
         # button = driver.find_element_by_class_name('arrow')
         # button.click()
 
         PWDinput = self.driver.find_element(By.XPATH, "//input[@name='passwd']")
         PWDinput.send_keys(User.UserPassword)
         PWDinput.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(2)
 
         try:
             button = self.driver.find_element(By.XPATH, "//a[@id='mini-21']")
             button.send_keys(Keys.ENTER)
         except:
             pass
+        time.sleep(2)
         return True
 
     def AutoSubmit(self, User):
         ItemList = self.driver.find_element(By.XPATH, "//li[@name='M000002']")
         ItemList.click()
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.switch_to.frame('mini-iframe-17')
 
@@ -74,29 +75,29 @@ class WebDriverContorl:
         # select "新建"
         approveStatus = self.driver.find_element(By.XPATH, "//span[@id='approveStatus']")
         approveStatus.click()
-        time.sleep(1)
+        time.sleep(2)
         try:
             approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-10$0']")
         except:
             approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-11$0']")
         approveStatus_option.click()
-        time.sleep(1)
+        time.sleep(2)
 
         # select "Page_100"
         try:  # SPOT & SWAP
             page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-51']")
             page_size.click()
-            time.sleep(1)
+            time.sleep(2)
             page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-53$3']")
             page_size_option.click()
         except:  # FWD
             page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-52']")
             page_size.click()
-            time.sleep(1)
+            time.sleep(2)
             page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-54$3']")
             page_size_option.click()
 
-        time.sleep(1)
+        time.sleep(2)
         search_btn = self.driver.find_element(By.XPATH, "//a[@id='search_btn']")
         search_btn.click()
         time.sleep(4)
@@ -116,31 +117,35 @@ class WebDriverContorl:
         commit_btn = self.driver.find_element(By.XPATH, "//a[@id='batch_commit_btn']")
         commit_btn.click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         try:
+            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-195$content']")
+            print(infobox.text)
+
             button = self.driver.find_element(By.XPATH, "//a[@id='mini-170']")
             button.send_keys(Keys.ENTER)
-            print('请至少选择一条要提交的交易!')
         except:
-            pass
-        try:
+            return True
+        try:  # FWD
+            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-195$content']")
+            print(infobox.text)
+
             button = self.driver.find_element(By.XPATH, "//a[@id='mini-196']")
             button.send_keys(Keys.ENTER)
-            print('请至少选择一条要提交的交易!')
         except:
-            pass
+            return True
         try:
+            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-195$content']")
+            print(infobox.text)
+
             button = self.driver.find_element(By.XPATH, "//a[@id='mini-162']")
             button.send_keys(Keys.ENTER)
-            print('请至少选择一条要提交的交易!')
         except:
-            pass
-
-        return True
+            return True
 
     def closeWEB(self, User):
-        time.sleep(10)
+        time.sleep(8)
         self.driver.close()
 
         return True
