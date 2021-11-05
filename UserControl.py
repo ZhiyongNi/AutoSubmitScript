@@ -1,11 +1,6 @@
+import base64
 import json
 import os
-
-from selenium import webdriver
-import time
-
-from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
 
 from UserDict import UserDict
 
@@ -28,7 +23,7 @@ class UserControl:
             JsonTmp = json.load(file)
             UserTmp = UserDict()
             UserTmp.UserName = JsonTmp['UserName']
-            UserTmp.UserPassword = JsonTmp['UserPassword']
+            UserTmp.UserPassword = base64.decodestring(JsonTmp['UserPassword']).decode()
             UserTmp.PickProduct = JsonTmp['PickProduct']
             UserTmp.PickPortfolio = JsonTmp['PickPortfolio']
             UserTmp.RunningClock = JsonTmp['RunningClock']

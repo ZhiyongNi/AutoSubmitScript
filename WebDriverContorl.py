@@ -1,13 +1,10 @@
 # 本地Chrome浏览器设置方法
-import json
 
-from selenium import webdriver
 import time
 
+from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
-
-from UserDict import UserDict
 
 
 class WebDriverContorl:
@@ -54,21 +51,30 @@ class WebDriverContorl:
 
         Products = self.driver.find_elements(By.XPATH, "//div[@class='product clearfix']")
 
+        SubmitStatus = False
+
         for Product in Products:
             if User.PickProduct == 'SPOT' and '外汇即期' in Product.get_attribute(
                     "onclick") and 'cfetsfx' in Product.get_attribute("onclick"):
                 Product.click()
+                time.sleep(1)
+                SubmitStatus = self.AutoSubmit_SPOT(User)
             elif User.PickProduct == 'FWD' and '外汇远期' in Product.get_attribute(
                     "onclick") and 'cfetsfx' in Product.get_attribute("onclick"):
                 Product.click()
+                time.sleep(1)
+                SubmitStatus = self.AutoSubmit_FWD(User)
             elif User.PickProduct == 'SWAP' and '外汇掉期' in Product.get_attribute(
                     "onclick") and 'cfetsfx' in Product.get_attribute("onclick"):
                 Product.click()
+                time.sleep(1)
+                SubmitStatus = self.AutoSubmit_SWAP(User)
             else:
-                pass
+                SubmitStatus = False
 
-        time.sleep(1)
-        # print(driver.page_source)
+        return SubmitStatus
+
+    def AutoSubmit_SPOT(self, User):
         self.driver.switch_to.default_content()
         self.driver.switch_to.frame('mini-iframe-18')
 
@@ -76,42 +82,26 @@ class WebDriverContorl:
         approveStatus = self.driver.find_element(By.XPATH, "//span[@id='approveStatus']")
         approveStatus.click()
         time.sleep(2)
-        try:
-            approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-10$0']")
-        except:
-            approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-11$0']")
+        approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-10$0']")
         approveStatus_option.click()
         time.sleep(2)
 
         # select "Page_100"
-        try:  # SPOT & SWAP
-            page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-51']")
-            page_size.click()
-            time.sleep(2)
-            page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-53$3']")
-            page_size_option.click()
-        except:  # FWD
-            page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-52']")
-            page_size.click()
-            time.sleep(2)
-            page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-54$3']")
-            page_size_option.click()
+        page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-51']")
+        page_size.click()
+        time.sleep(2)
+        page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-53$3']")
+        page_size_option.click()
 
+        # click search_btn
         time.sleep(2)
         search_btn = self.driver.find_element(By.XPATH, "//a[@id='search_btn']")
         search_btn.click()
         time.sleep(4)
 
         # select "All Selected"
-
-        try:  # SPOT & SWAP
-            checkbox = self.driver.find_element(By.XPATH, "//td[@id='mini-48$headerCell2$1']")
-            checkbox.click()
-        except:  # FWD
-            checkbox = self.driver.find_element(By.XPATH, "//td[@id='mini-49$headerCell2$1']")
-            checkbox.click()
-            pass
-
+        checkbox = self.driver.find_element(By.XPATH, "//td[@id='mini-48$headerCell2$1']")
+        checkbox.click()
         time.sleep(1)
 
         commit_btn = self.driver.find_element(By.XPATH, "//a[@id='batch_commit_btn']")
@@ -119,30 +109,95 @@ class WebDriverContorl:
 
         time.sleep(2)
 
-        try:
-            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-195$content']")
-            print(infobox.text)
+        infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-167$content']")
+        print(infobox.text)
+        button = self.driver.find_element(By.XPATH, "//a[@id='mini-168']")
+        button.send_keys(Keys.ENTER)
 
-            button = self.driver.find_element(By.XPATH, "//a[@id='mini-170']")
-            button.send_keys(Keys.ENTER)
-        except:
-            return True
-        try:  # FWD
-            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-195$content']")
-            print(infobox.text)
+        return True
 
-            button = self.driver.find_element(By.XPATH, "//a[@id='mini-196']")
-            button.send_keys(Keys.ENTER)
-        except:
-            return True
-        try:
-            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-195$content']")
-            print(infobox.text)
+    def AutoSubmit_FWD(self, User):
+        self.driver.switch_to.default_content()
+        self.driver.switch_to.frame('mini-iframe-18')
 
-            button = self.driver.find_element(By.XPATH, "//a[@id='mini-162']")
-            button.send_keys(Keys.ENTER)
-        except:
-            return True
+        # select "新建"
+        approveStatus = self.driver.find_element(By.XPATH, "//span[@id='approveStatus']")
+        approveStatus.click()
+        time.sleep(2)
+        approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-11$0']")
+        approveStatus_option.click()
+        time.sleep(2)
+
+        # select "Page_100"
+        page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-52']")
+        page_size.click()
+        time.sleep(2)
+        page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-54$3']")
+        page_size_option.click()
+
+        # click search_btn
+        time.sleep(2)
+        search_btn = self.driver.find_element(By.XPATH, "//a[@id='search_btn']")
+        search_btn.click()
+        time.sleep(4)
+
+        # select "All Selected"
+        checkbox = self.driver.find_element(By.XPATH, "//td[@id='mini-49$headerCell2$1']")
+        checkbox.click()
+        time.sleep(1)
+
+        commit_btn = self.driver.find_element(By.XPATH, "//a[@id='batch_commit_btn']")
+        commit_btn.click()
+        time.sleep(2)
+
+        infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-193$content']")
+        print(infobox.text)
+        button = self.driver.find_element(By.XPATH, "//a[@id='mini-194']")
+        button.send_keys(Keys.ENTER)
+
+        return True
+
+    def AutoSubmit_SWAP(self, User):
+        self.driver.switch_to.default_content()
+        self.driver.switch_to.frame('mini-iframe-18')
+
+        # select "新建"
+        approveStatus = self.driver.find_element(By.XPATH, "//span[@id='approveStatus']")
+        approveStatus.click()
+        time.sleep(2)
+        approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-10$0']")
+        approveStatus_option.click()
+        time.sleep(2)
+
+        # select "Page_100"
+        page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-51']")
+        page_size.click()
+        time.sleep(2)
+        page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-53$3']")
+        page_size_option.click()
+
+        # click search_btn
+        time.sleep(2)
+        search_btn = self.driver.find_element(By.XPATH, "//a[@id='search_btn']")
+        search_btn.click()
+        time.sleep(4)
+
+        # select "All Selected"
+        checkbox = self.driver.find_element(By.XPATH, "//td[@id='mini-48$headerCell2$1']")
+        checkbox.click()
+        time.sleep(1)
+
+        commit_btn = self.driver.find_element(By.XPATH, "//a[@id='batch_commit_btn']")
+        commit_btn.click()
+
+        time.sleep(2)
+
+        infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-159$content']")
+        print(infobox.text)
+        button = self.driver.find_element(By.XPATH, "//a[@id='mini-160']")
+        button.send_keys(Keys.ENTER)
+
+        return True
 
     def closeWEB(self, User):
         time.sleep(8)
