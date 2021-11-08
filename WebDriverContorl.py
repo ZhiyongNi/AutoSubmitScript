@@ -54,23 +54,22 @@ class WebDriverContorl:
         SubmitStatus = False
 
         for Product in Products:
-            if User.PickProduct == 'SPOT' and '外汇即期' in Product.get_attribute(
-                    "onclick") and 'cfetsfx' in Product.get_attribute("onclick"):
+            ProductName = Product.get_attribute("onclick")
+            if User.PickProduct == 'SPOT' and '外汇即期' in ProductName and 'cfetsfx' in ProductName:
                 Product.click()
                 time.sleep(1)
                 SubmitStatus = self.AutoSubmit_SPOT(User)
-            elif User.PickProduct == 'FWD' and '外汇远期' in Product.get_attribute(
-                    "onclick") and 'cfetsfx' in Product.get_attribute("onclick"):
+                break
+            elif User.PickProduct == 'FWD' and '外汇远期' in ProductName and 'cfetsfx' in ProductName:
                 Product.click()
                 time.sleep(1)
                 SubmitStatus = self.AutoSubmit_FWD(User)
-            elif User.PickProduct == 'SWAP' and '外汇掉期' in Product.get_attribute(
-                    "onclick") and 'cfetsfx' in Product.get_attribute("onclick"):
+                break
+            elif User.PickProduct == 'SWAP' and '外汇掉期' in ProductName and 'cfetsfx' in ProductName:
                 Product.click()
                 time.sleep(1)
                 SubmitStatus = self.AutoSubmit_SWAP(User)
-            else:
-                SubmitStatus = False
+                break
 
         return SubmitStatus
 
@@ -109,10 +108,13 @@ class WebDriverContorl:
 
         time.sleep(2)
 
-        infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-167$content']")
-        print(infobox.text)
-        button = self.driver.find_element(By.XPATH, "//a[@id='mini-168']")
-        button.send_keys(Keys.ENTER)
+        try:
+            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-167$content']")
+            print(infobox.text)
+            button = self.driver.find_element(By.XPATH, "//a[@id='mini-168']")
+            button.send_keys(Keys.ENTER)
+        except:
+            pass
 
         return True
 
@@ -150,10 +152,13 @@ class WebDriverContorl:
         commit_btn.click()
         time.sleep(2)
 
-        infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-193$content']")
-        print(infobox.text)
-        button = self.driver.find_element(By.XPATH, "//a[@id='mini-194']")
-        button.send_keys(Keys.ENTER)
+        try:
+            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-195$content']")
+            print(infobox.text)
+            button = self.driver.find_element(By.XPATH, "//a[@id='mini-196']")
+            button.click()
+        except:
+            pass
 
         return True
 
@@ -192,10 +197,13 @@ class WebDriverContorl:
 
         time.sleep(2)
 
-        infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-159$content']")
-        print(infobox.text)
-        button = self.driver.find_element(By.XPATH, "//a[@id='mini-160']")
-        button.send_keys(Keys.ENTER)
+        try:
+            infobox = self.driver.find_element(By.XPATH, "//td[@id='mini-161$content")
+            print(infobox.text)
+            button = self.driver.find_element(By.XPATH, "//a[@id='mini-162']")
+            button.click()
+        except:
+            pass
 
         return True
 

@@ -39,6 +39,7 @@ if __name__ == '__main__':
             else:
                 pass
 
+            print(SubmitStatus)
             if SubmitStatus:
                 closeStatus = WebDriverInstance.closeWEB(User)
                 print(str(datetime.datetime.now()) + ' ' + str(User.__dict__) + ' succeed.')
