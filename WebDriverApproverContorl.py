@@ -17,20 +17,20 @@ class WebDriverApproverContorl:
     def setURL(self, url):
         self.WebURL = url
 
-    def logWEB(self, User):
+    def logWEB(self, Approver):
         self.driver.maximize_window()
         self.driver.get(self.WebURL)
         time.sleep(2)
 
         UIDinput = self.driver.find_element(By.XPATH, "//input[@name='userId']")
-        UIDinput.send_keys(User.UserName)
+        UIDinput.send_keys(Approver.UserName)
         UIDinput.send_keys(Keys.ENTER)
         time.sleep(2)
         # button = driver.find_element_by_class_name('arrow')
         # button.click()
 
         PWDinput = self.driver.find_element(By.XPATH, "//input[@name='passwd']")
-        PWDinput.send_keys(User.UserPassword)
+        PWDinput.send_keys(Approver.UserPassword)
         PWDinput.send_keys(Keys.ENTER)
         time.sleep(2)
 
@@ -42,7 +42,7 @@ class WebDriverApproverContorl:
         time.sleep(2)
         return True
 
-    def AutoSubmit(self, User):
+    def AutoApprove(self, Approver):
         self.driver.switch_to.default_content()
         self.driver.switch_to.frame('mini-iframe-16')
 
@@ -54,23 +54,22 @@ class WebDriverApproverContorl:
         Type_option.click()
         time.sleep(2)
 
-        User.PickProduct = ["SPOT", "FWD", "SWAP"]
+        Approver.PickProduct = ["SPOT", "FWD", "SWAP"]
 
-        for Product in User.PickProduct:
+        for Product in Approver.PickProduct:
             if Product == 'SPOT':
-                SubmitStatus = self.Approve_SPOT(User)
+                ApproveStatus = self.Approve_SPOT(Approver)
                 break
             elif Product == 'FWD':
-                SubmitStatus = self.Approve_FWD(User)
+                ApproveStatus = self.Approve_FWD(Approver)
                 break
             elif Product == 'SWAP':
-                SubmitStatus = self.Approve_SWAP(User)
+                ApproveStatus = self.Approve_SWAP(Approver)
                 break
 
-        return SubmitStatus
+        return ApproveStatus
 
-    def Approve_SPOT(self, User):
-
+    def Approve_SPOT(self, Approver):
         # select "外汇即期"
         ProductList = self.driver.find_element(By.XPATH, "//input[@id='prdName$text']")
         ProductList.click()
@@ -104,24 +103,14 @@ class WebDriverApproverContorl:
 
         return True
 
-    def Approve_FWD(self, User):
-        self.driver.switch_to.default_content()
-        self.driver.switch_to.frame('mini-iframe-18')
-
-        # select "新建"
-        approveStatus = self.driver.find_element(By.XPATH, "//span[@id='approveStatus']")
-        approveStatus.click()
+    def Approve_FWD(self, Approver):
+        # select "外汇远期"
+        ProductList = self.driver.find_element(By.XPATH, "//input[@id='prdName$text']")
+        ProductList.click()
         time.sleep(2)
-        approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-11$0']")
-        approveStatus_option.click()
+        Product_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-7$16']")
+        Product_option.click()
         time.sleep(2)
-
-        # select "Page_100"
-        page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-52']")
-        page_size.click()
-        time.sleep(2)
-        page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-54$3']")
-        page_size_option.click()
 
         # click search_btn
         time.sleep(2)
@@ -148,24 +137,14 @@ class WebDriverApproverContorl:
 
         return True
 
-    def Approve_SWAP(self, User):
-        self.driver.switch_to.default_content()
-        self.driver.switch_to.frame('mini-iframe-18')
-
-        # select "新建"
-        approveStatus = self.driver.find_element(By.XPATH, "//span[@id='approveStatus']")
-        approveStatus.click()
+    def Approve_SWAP(self, Approver):
+        # select "外汇掉期"
+        ProductList = self.driver.find_element(By.XPATH, "//input[@id='prdName$text']")
+        ProductList.click()
         time.sleep(2)
-        approveStatus_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-10$0']")
-        approveStatus_option.click()
+        Product_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-7$16']")
+        Product_option.click()
         time.sleep(2)
-
-        # select "Page_100"
-        page_size = self.driver.find_element(By.XPATH, "//span[@id='mini-51']")
-        page_size.click()
-        time.sleep(2)
-        page_size_option = self.driver.find_element(By.XPATH, "//tr[@id='mini-53$3']")
-        page_size_option.click()
 
         # click search_btn
         time.sleep(2)

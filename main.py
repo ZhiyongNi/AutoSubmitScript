@@ -37,14 +37,14 @@ if __name__ == '__main__':
                 break
 
             if logStatus:
-                SubmitStatus = WebDriverInstance.AutoSubmit(Approver)
+                ApproveStatus = WebDriverInstance.AutoApprove(Approver)
             else:
                 pass
 
-            print(SubmitStatus)
-            if SubmitStatus:
-                closeStatus = WebDriverInstance.closeWEB(User)
-                print(str(datetime.datetime.now()) + ' ' + str(User.__dict__) + ' succeed.')
+            print(ApproveStatus)
+            if ApproveStatus:
+                closeStatus = WebDriverInstance.closeWEB(Approver)
+                print(str(datetime.datetime.now()) + ' ' + str(Approver.__dict__) + ' succeed.')
             else:
                 pass
 
